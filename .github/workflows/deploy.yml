@@ -62,6 +62,10 @@ jobs:
           SENTRY_DSN_ADMIN: ${{ secrets.SENTRY_DSN_ADMIN }}
           SENTRY_DSN_STOREFRONT: ${{ secrets.SENTRY_DSN_STOREFRONT }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT_ADMIN: ${{ secrets.SENTRY_PROJECT_ADMIN }}
+          SENTRY_PROJECT_STOREFRONT: ${{ secrets.SENTRY_PROJECT_STOREFRONT }}
+          NEXT_PUBLIC_SENTRY_DSN_ADMIN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN_ADMIN }}
           FALLBACK_SHIPPING_PRICE_BGN: "8.99"
 
       - name: Deploy Admin (Vercel)

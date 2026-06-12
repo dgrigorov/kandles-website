@@ -52,7 +52,7 @@ development_status:
   1-6-split-hosting-setup-cloudflare-pages-vercel: done
   1-7-cicd-github-actions-pipeline: done
   1-8-self-hosted-fonts-brand-css-design-tokens: done
-  1-9-sentry-monitoring-stack-setup: backlog
+  1-9-sentry-monitoring-stack-setup: done
   1-10-db-seed-data-data-retention-cron-jobs: backlog
   epic-1-retrospective: optional
 

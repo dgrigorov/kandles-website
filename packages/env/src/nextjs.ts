@@ -24,14 +24,17 @@ export const env = createEnv({
     META_CAPI_ACCESS_TOKEN: z.string().min(1),
     PREVIEW_JWT_SECRET: z.string().min(32),
     SENTRY_DSN_ADMIN: z.string().url(),
+    SENTRY_AUTH_TOKEN: z.string().optional(),
     FALLBACK_SHIPPING_PRICE_BGN: z.coerce.number().positive(),
   },
   client: {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_SENTRY_DSN_ADMIN: z.string().url(),
   },
   // Next.js >=13.4.4: only client-side vars need explicit destructuring
   experimental__runtimeEnv: {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SENTRY_DSN_ADMIN: process.env.NEXT_PUBLIC_SENTRY_DSN_ADMIN,
   },
   emptyStringAsUndefined: true,
 })

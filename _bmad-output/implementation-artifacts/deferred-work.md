@@ -56,3 +56,8 @@
 
 - `e2e/fonts.spec.ts` — test doesn't await `networkidle`; low-risk (preload fires before load event), but add `waitForLoadState('networkidle')` in a future e2e hardening story
 - `e2e/fonts.spec.ts` — test doesn't assert HTTP 200 from `/`; false-pass if route returns 404; validate page response status in Story 2.x e2e suite
+
+## Deferred from: code review of 1-9-sentry-monitoring-stack-setup (2026-06-12)
+
+- `apps/storefront/astro.config.ts` — `tracesSampleRate: 0.1` hardcoded in @sentry/astro integration; dev builds also get 0.1 instead of 1.0; minor dev experience impact; fix in future monitoring hardening story
+- `apps/admin/next.config.ts` — `SENTRY_ORG` and `SENTRY_PROJECT_ADMIN` (and `SENTRY_PROJECT_STOREFRONT` in astro.config.ts) not validated in `@kandles/env` schema; build-time-only vars not in AC8 scope; Sentry SDK will surface missing vars during source map upload phase; add validation if upload reliability becomes an issue

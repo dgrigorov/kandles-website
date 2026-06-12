@@ -1,9 +1,23 @@
 import { defineConfig } from 'astro/config'
 import cloudflare from '@astrojs/cloudflare'
 import tailwind from '@astrojs/tailwind'
+import sentry from '@sentry/astro'
 
 export default defineConfig({
   output: 'server',
   adapter: cloudflare(),
-  integrations: [tailwind()],
+  integrations: [
+    tailwind(),
+    sentry({
+      dsn: process.env.SENTRY_DSN_STOREFRONT,
+      environment: process.env.NODE_ENV,
+      tracesSampleRate: 0.1,
+      sourceMapsUploadOptions: {
+        project: process.env.SENTRY_PROJECT_STOREFRONT,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: process.env.SENTRY_ORG,
+      },
+      tunnel: '/api/sentry-tunnel',
+    }),
+  ],
 })
