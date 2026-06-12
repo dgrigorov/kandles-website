@@ -19,3 +19,7 @@
 - `packages/env/src/nextjs.ts`: `experimental__runtimeEnv` only maps declared NEXT_PUBLIC_ vars — new client vars added later must be manually added to the mapping or they silently skip validation. Document as team convention when adding new client vars.
 - `packages/env/src/index.ts`: `isServer` detection (`typeof window === "undefined"`) may not hold in CF DurableObject/WorkerEntrypoint context. Revisit if DOs or WorkerEntrypoints are introduced.
 - `packages/env/src/astro.ts`: `PUBLIC_GTM_CONTAINER_ID` must be a build-time Cloudflare Pages variable (not a runtime secret binding) or it will be `undefined` client-side. Document in Story 6-3 (GTM setup) or CF Pages deployment config.
+
+## Deferred from: code review of 1-3-core-db-schema-products-collections-drizzle-migration-strategy (2026-06-12)
+
+- `packages/db/drizzle/migrations/meta/` — миграция `0001_products_search_index.sql` е регистрирана в `_journal.json` но няма snapshot; drizzle-kit може да я презапише или конфликтира при следващо `generate` в Story 1.4+. Изисква внимание преди пускане на `drizzle-kit generate` за следваща миграция.

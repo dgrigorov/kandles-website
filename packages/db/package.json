@@ -9,13 +9,22 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --project tsconfig.typecheck.json",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "push:dev": "drizzle-kit push",
+    "studio": "drizzle-kit studio",
+    "apply-indexes": "tsx scripts/apply-indexes.ts"
   },
   "dependencies": {
-    "@kandles/types": "workspace:*",
-    "@kandles/env": "workspace:*"
+    "drizzle-orm": "catalog:",
+    "postgres": "^3.4.5"
   },
   "devDependencies": {
-    "typescript": "catalog:"
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "drizzle-kit": "catalog:",
+    "dotenv": "catalog:",
+    "tsx": "catalog:"
   }
 }
