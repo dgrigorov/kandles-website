@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@kandles/db": ["./packages/db/src/index.ts"],
+      "@kandles/types": ["./packages/types/src/index.ts"],
+      "@kandles/env": ["./packages/env/src/index.ts"],
+      "@kandles/ui": ["./packages/ui/src/index.ts"],
+      "@kandles/email": ["./packages/email/src/index.ts"]
+    }
+  }
+}

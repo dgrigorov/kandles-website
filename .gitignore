@@ -1,0 +1,17 @@
+node_modules/
+.turbo/
+dist/
+.next/
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
+.DS_Store
+*.log
+.vercel
+out/
+build/
+.wrangler/
+{output_folder}/

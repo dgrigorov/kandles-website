@@ -1,0 +1,114 @@
+# generated: 2026-06-11
+# last_updated: 2026-06-11
+# project: Kandles.bg
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-06-11
+last_updated: 2026-06-11
+project: Kandles.bg
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # ─── Epic 1: Platform Foundation ───
+  epic-1: in-progress
+  1-1-turborepo-monorepo-shared-packages-scaffold: done
+  1-2-environment-validation-secrets-management: backlog
+  1-3-core-db-schema-products-collections-drizzle-migration-strategy: backlog
+  1-4-orders-checkout-db-schema: backlog
+  1-5-users-auth-supabase-rls-policies: backlog
+  1-6-split-hosting-setup-cloudflare-pages-vercel: backlog
+  1-7-cicd-github-actions-pipeline: backlog
+  1-8-self-hosted-fonts-brand-css-design-tokens: backlog
+  1-9-sentry-monitoring-stack-setup: backlog
+  1-10-db-seed-data-data-retention-cron-jobs: backlog
+  epic-1-retrospective: optional
+
+  # ─── Epic 2: Продуктов Каталог & Brand Experience ───
+  epic-2: backlog
+  2-1-brand-design-system-component-library: backlog
+  2-2-editorial-hero-section: backlog
+  2-3-product-grid-occasion-filter-react-island: backlog
+  2-4-editorial-product-page: backlog
+  2-5-seasonal-display-last-minute-section: backlog
+  2-6-occasion-ssg-landing-pages: backlog
+  2-7-comprehensive-schema-org-sitemap-robots: backlog
+  2-8-cookie-consent-banner-legal-pages: backlog
+  2-9-branded-error-pages-empty-states-skeleton-loaders: backlog
+  2-10-mobile-bottom-nav-scroll-animations-lenis: backlog
+  epic-2-retrospective: optional
+
+  # ─── Epic 3: Gift Experience & Персонализация ───
+  epic-3: backlog
+  3-1-buquet-konfigurator-wizard: backlog
+  3-2-preview-photo-approval-state-machine: backlog
+  3-3-gift-wrap-cart-gift-mode: backlog
+  3-4-gift-sets-product-type-atomarna-inventory: backlog
+  epic-3-retrospective: optional
+
+  # ─── Epic 4: Checkout, Плащане & Доставка ───
+  epic-4: backlog
+  4-1-cart-reservations-localstorage-db-sync: backlog
+  4-2-guest-checkout-forma-econt-speedy-courier: backlog
+  4-3-stripe-hosted-checkout-applepay-googlepay-nalozen-platezh: backlog
+  4-4-stripe-webhook-idempotency-reconciliation-cron: backlog
+  4-5-order-tracking-stranitsa: backlog
+  4-6-rate-limiting-cloudflare-turnstile: backlog
+  epic-4-retrospective: optional
+
+  # ─── Epic 5: Admin Панел ───
+  epic-5: backlog
+  5-1-admin-authentication-persistent-30-day-session: backlog
+  5-2-orders-dashboard-list-filters-pagination: backlog
+  5-3-order-detail-status-tracking-notes-preview-upload: backlog
+  5-4-product-crud-images-drag-drop-alt-text: backlog
+  5-5-bulk-inventory-management-low-stock-alerts: backlog
+  epic-5-retrospective: optional
+
+  # ─── Epic 6: Имейли, Viber & Marketing Infrastructure ───
+  epic-6: backlog
+  6-1-4-transaktsionni-imeyla-react-email-resend: backlog
+  6-2-viber-business-notifikatsii-email-fallback: backlog
+  6-3-gtg-setup-gtm-ui-consent-mode-v2: backlog
+  6-4-meta-capi-server-side-event-id-deduplication: backlog
+  epic-6-retrospective: optional
+
+  # ─── Epic 7: Бранд, Доверие & Маркетинг ───
+  epic-7: backlog
+  7-1-nashata-istoriya-editorial-stranitsa: backlog
+  7-2-reviews-sistema: backlog
+  7-3-newsletter-double-opt-in-5-off-kupon: backlog
+  7-4-kontakti-stranitsa-politika-za-vrushania: backlog
+  epic-7-retrospective: optional
