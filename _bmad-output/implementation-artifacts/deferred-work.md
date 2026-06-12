@@ -23,3 +23,21 @@
 ## Deferred from: code review of 1-3-core-db-schema-products-collections-drizzle-migration-strategy (2026-06-12)
 
 - `packages/db/drizzle/migrations/meta/` — миграция `0001_products_search_index.sql` е регистрирана в `_journal.json` но няма snapshot; drizzle-kit може да я презапише или конфликтира при следващо `generate` в Story 1.4+. Изисква внимание преди пускане на `drizzle-kit generate` за следваща миграция.
+
+## Deferred from: code review of 1-4-orders-checkout-db-schema (2026-06-12)
+
+- `orders.ts`: indexes on (user_id, status) — deferred to Story 1.7 per dev notes
+- `order_items.ts`: index on order_id — deferred to Story 1.7 per dev notes
+- `cart_reservations.ts`: indexes on (expires_at, product_id, session_id) — deferred to Story 1.10 per dev notes
+- `cart_reservations.ts`: overselling race condition, no SELECT FOR UPDATE on products.stock — deferred to Story 4.1
+- `orders.ts`: payment_method vs stripePaymentIntentId consistency constraint — app-layer validation sufficient for MVP
+- `cart_reservations.ts`: (session_id, product_id) partial unique index preventing duplicate active reservations — requires raw SQL, deferred to Story 4.1
+- `order_items.ts`: (order_id, product_id) unique constraint — checkout flow design decision, deferred to Story 4.2
+- `stripe.ts`: eventType column (e.g. `payment_intent.succeeded`) for audit — MVP scope, add when debugging becomes needed
+- `orders.ts`: CHECK (approved_at >= preview_uploaded_at) ordering constraint — future preview workflow story
+- `orders.ts`: tracking_number + courier co-presence constraint — future courier/shipping story
+- `cart_reservations.ts`: CHECK (expires_at > created_at) — minor, app-layer ensures valid values
+- `order_items.ts`: snapshot_price column — future returns/exchange story may need catalog price at order time
+- `orders.ts`: updated_at DB-level trigger (currently ORM-only, stale if row updated via raw SQL) — Story 1.7 or dedicated DB work
+- `orders.ts`: guest_email format validation at DB level — app-layer validation is standard approach
+- `orders.ts`: totalPrice integrity link to SUM(order_items.unit_price * quantity) — complex trigger or generated column, future story

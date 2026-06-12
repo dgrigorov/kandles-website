@@ -15,6 +15,13 @@
       "when": 1781252495571,
       "tag": "0001_natural_toxin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781254106441,
+      "tag": "0002_aromatic_pyro",
+      "breakpoints": true
     }
   ]
 }

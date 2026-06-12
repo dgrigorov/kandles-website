@@ -47,7 +47,7 @@ development_status:
   1-1-turborepo-monorepo-shared-packages-scaffold: done
   1-2-environment-validation-secrets-management: done
   1-3-core-db-schema-products-collections-drizzle-migration-strategy: done
-  1-4-orders-checkout-db-schema: ready-for-dev
+  1-4-orders-checkout-db-schema: done
   1-5-users-auth-supabase-rls-policies: backlog
   1-6-split-hosting-setup-cloudflare-pages-vercel: backlog
   1-7-cicd-github-actions-pipeline: backlog
