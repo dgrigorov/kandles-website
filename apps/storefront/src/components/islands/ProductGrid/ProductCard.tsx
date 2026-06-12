@@ -11,6 +11,7 @@ function getHeroImage(images: ProductImage[]): ProductImage | null {
 
 function formatPrice(priceStr: string): string {
   const price = parseFloat(priceStr)
+  if (isNaN(price)) return '—'
   return price % 1 === 0
     ? `${price.toFixed(0)} лв.`
     : `${price.toFixed(2)} лв.`
@@ -36,7 +37,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             src={hero.url}
             alt={hero.alt_text}
             className="w-full h-full object-cover"
-            loading="lazy"
+            loading="eager"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[var(--color-chocolate)] opacity-30">
@@ -92,7 +93,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           className={`w-full py-2 px-4 text-sm font-medium uppercase tracking-widest rounded transition-opacity
             ${isOutOfStock
               ? 'bg-[var(--color-sand)] text-[var(--color-chocolate)] opacity-50 cursor-not-allowed'
-              : 'bg-[var(--color-chocolate)] text-[var(--color-cream)] hover:opacity-90 focus:outline-2 focus:outline-[var(--color-amber)] focus:outline-offset-2'
+              : 'bg-[var(--color-chocolate)] text-[var(--color-cream)] hover:opacity-90 focus:outline focus:outline-2 focus:outline-[var(--color-amber)] focus:outline-offset-2'
             }`}
           style={{ fontFamily: 'var(--font-ui)' }}
         >

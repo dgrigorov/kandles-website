@@ -78,6 +78,12 @@
 - `apps/storefront/src/components/ui/HeroSection.astro:33` — SVG `<text>` placeholder uses `font-family="'Cormorant Garamond', serif"` attribute; CSS font inheritance in SVG is not guaranteed cross-browser; deferred because this is a placeholder SVG explicitly marked TODO — replace with final artwork from designer before launch
 - `apps/storefront/src/pages/index.astro:20` — Empty `<section id="produkti" aria-label="Продукти">` announces a region to AT with no content; intentional placeholder for Story 2.3 product grid; add `aria-busy` or remove `aria-label` until content exists if AT feedback is received
 
+## Deferred from: code review of 2-3-product-grid-occasion-filter-react-island (2026-06-12)
+
+- `apps/storefront/src/components/islands/ProductGrid/OccasionFilter.tsx:18` — `role="radiogroup"` missing arrow-key (ArrowLeft/Right/Up/Down) roving tabindex navigation; WAI-ARIA §3.18 requires it; only Space/Enter handled; defer to Story 2.7 a11y hardening
+- `apps/storefront/src/components/islands/ProductGrid/OccasionFilter.tsx:18` — ARIA radiogroup: all tiles can be `aria-checked=false` simultaneously (deselectable null state); strict ARIA radiogroup requires one checked at all times; Dev Notes acknowledge this as a deliberate tradeoff; defer to Story 2.7 a11y hardening
+- `apps/storefront/src/pages/index.astro` — Supabase fetch error only logs to console, no user-facing empty state or error message; acceptable for MVP; address in future story when error handling patterns are standardized
+
 ## Deferred from: code review of 1-9-sentry-monitoring-stack-setup (2026-06-12)
 
 - `apps/storefront/astro.config.ts` — `tracesSampleRate: 0.1` hardcoded in @sentry/astro integration; dev builds also get 0.1 instead of 1.0; minor dev experience impact; fix in future monitoring hardening story

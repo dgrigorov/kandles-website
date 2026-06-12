@@ -1,11 +1,11 @@
 ---
-status: review
+status: done
 baseline_commit: 67e105a4e679ad422fc0ff195aaf6283d53c3926
 ---
 
 # Story 2.3: Product grid + occasion filter React Island
 
-Status: review
+Status: done
 
 ## Story
 
@@ -617,6 +617,17 @@ claude-sonnet-4-6
 - `_bmad-output/implementation-artifacts/2-3-product-grid-occasion-filter-react-island.md` — status + tasks updated
 - `_bmad-output/implementation-artifacts/sprint-status.yaml` — story status updated
 
+### Review Findings
+
+- [x] [Review][Patch] P1: `focus:outline-2` missing `focus:outline` — focus ring invisible on button [ProductCard.tsx:95] ✅ fixed
+- [x] [Review][Patch] P2: Duplicate `"Продукти"` region label on nested landmarks [index.tsx:29] ✅ fixed
+- [x] [Review][Patch] P3: `formatPrice` no NaN guard — `""` or null price → `"NaN лв."` [ProductCard.tsx:12] ✅ fixed
+- [x] [Review][Patch] P4: `loading="lazy"` inside `client:visible` island — double-deferral [ProductCard.tsx:39] ✅ fixed
+- [x] [Review][Defer] D1: Arrow-key navigation missing on `role="radiogroup"` [OccasionFilter.tsx:18] — deferred, Story 2.7 a11y hardening
+- [x] [Review][Defer] D2: ARIA radiogroup all `aria-checked=false` simultaneously — deferred, Story 2.7 a11y hardening
+- [x] [Review][Defer] D3: Silent Supabase error log — no user-facing error state — deferred, future story
+
 ## Change Log
 
 - 2026-06-12: Story 2.3 implemented — React island ProductGrid with occasion filter, Supabase server-side fetch, scroll-driven animation, stock badges, amber hover ring
+- 2026-06-12: Code review — 4 patches applied, 3 deferred, 5 dismissed

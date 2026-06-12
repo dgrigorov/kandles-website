@@ -27,7 +27,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
 
       <div
         role="region"
-        aria-label="Продукти"
+        aria-label="Списък с продукти"
         aria-live="polite"
         aria-atomic="false"
       >
