@@ -8,12 +8,12 @@ const COLLECTION_IDS = {
 }
 
 const PRODUCT_IDS = [
-  'p0000001-0000-0000-0000-000000000001',
-  'p0000001-0000-0000-0000-000000000002',
-  'p0000001-0000-0000-0000-000000000003',
-  'p0000001-0000-0000-0000-000000000004',
-  'p0000001-0000-0000-0000-000000000005',
-  'p0000001-0000-0000-0000-000000000006',
+  'e0000001-0000-0000-0000-000000000001',
+  'e0000001-0000-0000-0000-000000000002',
+  'e0000001-0000-0000-0000-000000000003',
+  'e0000001-0000-0000-0000-000000000004',
+  'e0000001-0000-0000-0000-000000000005',
+  'e0000001-0000-0000-0000-000000000006',
 ]
 
 const ADMIN_SEED_USER_ID   = 'a0000001-0000-0000-0000-000000000001'
@@ -45,12 +45,12 @@ async function seed() {
   ]).onConflictDoNothing()
 
   await db.insert(productImages).values([
-    { id: 'i0000001-0000-0000-0000-000000000001', productId: PRODUCT_IDS[0], url: 'https://images.kandles.bg/seed/rozova-prolet.jpg',          altText: 'Розова пролет — букет рози и лалета',         sortOrder: 0, isHero: true },
-    { id: 'i0000001-0000-0000-0000-000000000002', productId: PRODUCT_IDS[1], url: 'https://images.kandles.bg/seed/slanchogledi-lavandula.jpg', altText: 'Слънчоглед и лавандула — летен букет',         sortOrder: 0, isHero: true },
-    { id: 'i0000001-0000-0000-0000-000000000003', productId: PRODUCT_IDS[2], url: 'https://images.kandles.bg/seed/koledna-zvezda.jpg',         altText: 'Коледна звезда — пойнсетия аранжировка',      sortOrder: 0, isHero: true },
-    { id: 'i0000001-0000-0000-0000-000000000004', productId: PRODUCT_IDS[3], url: 'https://images.kandles.bg/seed/zimna-prikazka.jpg',         altText: 'Зимна приказка — бяла коледна аранжировка',   sortOrder: 0, isHero: true },
-    { id: 'i0000001-0000-0000-0000-000000000005', productId: PRODUCT_IDS[4], url: 'https://images.kandles.bg/seed/relaks-komplet.jpg',         altText: 'Релакс комплект — свещи и ароматни продукти', sortOrder: 0, isHero: true },
-    { id: 'i0000001-0000-0000-0000-000000000006', productId: PRODUCT_IDS[5], url: 'https://images.kandles.bg/seed/nezhen-moment.jpg',          altText: 'Нежен момент — орхидеи и зелени акценти',    sortOrder: 0, isHero: true },
+    { id: 'b0000001-0000-0000-0000-000000000001', productId: PRODUCT_IDS[0], url: 'https://images.kandles.bg/seed/rozova-prolet.jpg',          altText: 'Розова пролет — букет рози и лалета',         sortOrder: 0, isHero: true },
+    { id: 'b0000001-0000-0000-0000-000000000002', productId: PRODUCT_IDS[1], url: 'https://images.kandles.bg/seed/slanchogledi-lavandula.jpg', altText: 'Слънчоглед и лавандула — летен букет',         sortOrder: 0, isHero: true },
+    { id: 'b0000001-0000-0000-0000-000000000003', productId: PRODUCT_IDS[2], url: 'https://images.kandles.bg/seed/koledna-zvezda.jpg',         altText: 'Коледна звезда — пойнсетия аранжировка',      sortOrder: 0, isHero: true },
+    { id: 'b0000001-0000-0000-0000-000000000004', productId: PRODUCT_IDS[3], url: 'https://images.kandles.bg/seed/zimna-prikazka.jpg',         altText: 'Зимна приказка — бяла коледна аранжировка',   sortOrder: 0, isHero: true },
+    { id: 'b0000001-0000-0000-0000-000000000005', productId: PRODUCT_IDS[4], url: 'https://images.kandles.bg/seed/relaks-komplet.jpg',         altText: 'Релакс комплект — свещи и ароматни продукти', sortOrder: 0, isHero: true },
+    { id: 'b0000001-0000-0000-0000-000000000006', productId: PRODUCT_IDS[5], url: 'https://images.kandles.bg/seed/nezhen-moment.jpg',          altText: 'Нежен момент — орхидеи и зелени акценти',    sortOrder: 0, isHero: true },
   ]).onConflictDoNothing()
 
   const adminEmail = process.env.ADMIN_EMAIL
@@ -61,14 +61,14 @@ async function seed() {
 
   await db.insert(reviews).values([
     {
-      id:         'r0000001-0000-0000-0000-000000000001',
+      id:         'f0000001-0000-0000-0000-000000000001',
       productId:  PRODUCT_IDS[0],
       rating:     5,
       text:       'Невероятно красив букет! Получих го за рождения ден и всички бяха възхитени. Свежи цветя и прекрасна аранжировка.',
       isApproved: true,
     },
     {
-      id:         'r0000001-0000-0000-0000-000000000002',
+      id:         'f0000001-0000-0000-0000-000000000002',
       productId:  PRODUCT_IDS[1],
       rating:     4,
       text:       'Много красив и ароматен букет. Цветята издържаха повече от седмица. Определено ще поръчам отново!',

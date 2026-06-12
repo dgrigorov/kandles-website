@@ -57,6 +57,12 @@
 - `e2e/fonts.spec.ts` — test doesn't await `networkidle`; low-risk (preload fires before load event), but add `waitForLoadState('networkidle')` in a future e2e hardening story
 - `e2e/fonts.spec.ts` — test doesn't assert HTTP 200 from `/`; false-pass if route returns 404; validate page response status in Story 2.x e2e suite
 
+## Deferred from: code review of 1-10-db-seed-data-data-retention-cron-jobs (2026-06-12)
+
+- `apps/admin/src/app/api/cron/cleanup/route.ts:8-10` — CRON_SECRET auth header compared with `!==` (not constant-time); use `crypto.timingSafeEqual` for timing-safe comparison in production security hardening story
+- `packages/db/src/seed.ts:20` — `ADMIN_SEED_AUTH_UUID` is a hardcoded dummy UUID; won't match real Supabase `auth.users.id`; acceptable for dev-only seed; revisit if FK to auth.users is ever enforced or if seed is reused in staging
+- `packages/db/src/seed.ts:79` — `process.exit(0)` bypasses postgres.js `client.end()` teardown; dev tooling only, OS cleans up; fix in future dev tooling improvement
+
 ## Deferred from: code review of 1-9-sentry-monitoring-stack-setup (2026-06-12)
 
 - `apps/storefront/astro.config.ts` — `tracesSampleRate: 0.1` hardcoded in @sentry/astro integration; dev builds also get 0.1 instead of 1.0; minor dev experience impact; fix in future monitoring hardening story

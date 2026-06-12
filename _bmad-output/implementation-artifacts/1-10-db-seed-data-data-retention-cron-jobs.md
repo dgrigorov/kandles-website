@@ -321,6 +321,18 @@ In `packages/db/package.json`, add to `scripts`:
 
 - [x] [Review][Patch] Cron route has no error handling — a DB failure in the first SQL job silently aborts the remaining two jobs [apps/admin/src/app/api/cron/cleanup/route.ts:15-29]
 
+- [x] [Review][Decision] `orders_identity_check` CHECK constraint violated by anonymize-orders SQL — resolved: added `AND user_id IS NOT NULL` (Option A); no guest orders in product design, guest_email column to be removed in Epic 4 checkout story
+
+- [x] [Review][Patch] Seed UUIDs with p/i/r prefixes are not valid hexadecimal — fixed: p→e, i→b, r→f [packages/db/src/seed.ts:10-16, 47-54, 62-77]
+
+- [x] [Review][Patch] Vercel cron issues GET requests but route only exports POST — fixed: renamed to GET [apps/admin/src/app/api/cron/cleanup/route.ts:7]
+
+- [x] [Review][Defer] Timing attack on CRON_SECRET comparison — `!==` is not constant-time; use `crypto.timingSafeEqual` for production hardening [apps/admin/src/app/api/cron/cleanup/route.ts:8-10] — deferred, security hardening backlog
+
+- [x] [Review][Defer] `ADMIN_SEED_AUTH_UUID` is a dummy UUID that won't match real Supabase auth.users — breaks if FK is ever added; dev-only by design [packages/db/src/seed.ts:20] — deferred, documented in Dev Notes, acceptable for local dev seed
+
+- [x] [Review][Defer] `process.exit(0)` bypasses postgres.js TCP connection teardown — minor; OS cleans up on exit; Supabase PgBouncer handles server-side [packages/db/src/seed.ts:79] — deferred, dev tooling only
+
 ## Change Log
 
 | Date | Change | Author |
