@@ -1,10 +1,11 @@
 import { pgTable, uuid, varchar, numeric, smallint, boolean, timestamp, jsonb, check } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 import { orderStatusEnum, paymentMethodEnum, courierEnum } from './enums'
+import { users } from './users'
 
 export const orders = pgTable('orders', {
   id:                    uuid('id').primaryKey().default(sql`gen_random_uuid()`),
-  userId:                uuid('user_id'),
+  userId:                uuid('user_id').references(() => users.id),
   guestEmail:            varchar('guest_email', { length: 255 }),
   status:                orderStatusEnum('status').notNull().default('received'),
   paymentMethod:         paymentMethodEnum('payment_method').notNull(),

@@ -4,7 +4,7 @@ baseline_commit: 2f79ea040353c1571ee562d9f54b611db65d6732
 
 # Story 1.5: Users + Auth + Supabase RLS policies
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -55,49 +55,49 @@ So that only the admin can write data, while buyers can safely read products and
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Създай `packages/db/src/schema/users.ts` (AC: 1, 9)
-  - [ ] `supabaseAuthId`: `uuid('supabase_auth_id').notNull().unique()` — НЕ е PostgreSQL FK към `auth.users` (виж Dev Notes)
-  - [ ] `email`: `varchar('email', { length: 255 }).notNull()`
-  - [ ] `createdAt`: `timestamp('created_at', { withTimezone: true }).notNull().defaultNow()`
-  - [ ] Export: `users` table + `User` и `NewUser` inferred types
+- [x] Task 1: Създай `packages/db/src/schema/users.ts` (AC: 1, 9)
+  - [x] `supabaseAuthId`: `uuid('supabase_auth_id').notNull().unique()` — НЕ е PostgreSQL FK към `auth.users` (виж Dev Notes)
+  - [x] `email`: `varchar('email', { length: 255 }).notNull()`
+  - [x] `createdAt`: `timestamp('created_at', { withTimezone: true }).notNull().defaultNow()`
+  - [x] Export: `users` table + `User` и `NewUser` inferred types
 
-- [ ] Task 2: Създай `packages/db/src/schema/marketing_consents.ts` (AC: 2)
-  - [ ] `email`: `varchar('email', { length: 255 }).notNull()`
-  - [ ] `consentedAt`: `timestamp('consented_at', { withTimezone: true }).notNull()`
-  - [ ] `source`: `varchar('source', { length: 50 })` — nullable (откъде идва: newsletter, checkout, etc.)
-  - [ ] `unsubscribedAt`: nullable timestamp — записва момента на unsubscribe
-  - [ ] Export: `marketingConsents` table + `MarketingConsent` и `NewMarketingConsent` types
+- [x] Task 2: Създай `packages/db/src/schema/marketing_consents.ts` (AC: 2)
+  - [x] `email`: `varchar('email', { length: 255 }).notNull()`
+  - [x] `consentedAt`: `timestamp('consented_at', { withTimezone: true }).notNull()`
+  - [x] `source`: `varchar('source', { length: 50 })` — nullable (откъде идва: newsletter, checkout, etc.)
+  - [x] `unsubscribedAt`: nullable timestamp — записва момента на unsubscribe
+  - [x] Export: `marketingConsents` table + `MarketingConsent` и `NewMarketingConsent` types
 
-- [ ] Task 3: Създай `packages/db/src/schema/reviews.ts` (AC: 3)
-  - [ ] `productId`: FK → `products.id` с `onDelete: 'cascade'`
-  - [ ] `orderId`: FK → `orders.id` без cascade, nullable
-  - [ ] `rating`: `smallint('rating').notNull()` + CHECK `rating >= 1 AND rating <= 5`
-  - [ ] `isApproved`: `boolean('is_approved').notNull().default(false)`
-  - [ ] `createdAt`: timestamptz NOT NULL defaultNow()
-  - [ ] Export: `reviews` table + `Review` и `NewReview` types
+- [x] Task 3: Създай `packages/db/src/schema/reviews.ts` (AC: 3)
+  - [x] `productId`: FK → `products.id` с `onDelete: 'cascade'`
+  - [x] `orderId`: FK → `orders.id` без cascade, nullable
+  - [x] `rating`: `smallint('rating').notNull()` + CHECK `rating >= 1 AND rating <= 5`
+  - [x] `isApproved`: `boolean('is_approved').notNull().default(false)`
+  - [x] `createdAt`: timestamptz NOT NULL defaultNow()
+  - [x] Export: `reviews` table + `Review` и `NewReview` types
 
-- [ ] Task 4: Обнови `packages/db/src/schema/orders.ts` — добави FK (AC: 9)
-  - [ ] Import `users` от `./users`
-  - [ ] Промени `userId: uuid('user_id')` → `uuid('user_id').references(() => users.id)`
-  - [ ] Провери: existing CHECK constraints (от Story 1.4 review) са непокътнати
+- [x] Task 4: Обнови `packages/db/src/schema/orders.ts` — добави FK (AC: 9)
+  - [x] Import `users` от `./users`
+  - [x] Промени `userId: uuid('user_id')` → `uuid('user_id').references(() => users.id)`
+  - [x] Провери: existing CHECK constraints (от Story 1.4 review) са непокътнати
 
-- [ ] Task 5: Обнови `packages/db/src/schema/index.ts` (AC: 10)
-  - [ ] Добави: `export * from './users'`, `export * from './marketing_consents'`, `export * from './reviews'`
-  - [ ] Провери: всички Story 1.3 + 1.4 exports са непокътнати
+- [x] Task 5: Обнови `packages/db/src/schema/index.ts` (AC: 10)
+  - [x] Добави: `export * from './users'`, `export * from './marketing_consents'`, `export * from './reviews'`
+  - [x] Провери: всички Story 1.3 + 1.4 exports са непокътнати
 
-- [ ] Task 6: Генерирай migration (AC: 5, 6, 7, 8, 9)
-  - [ ] `pnpm --filter @kandles/db generate`
-  - [ ] Провери: migration включва CREATE TABLE users, marketing_consents, reviews
-  - [ ] Провери: migration включва ALTER TABLE orders ADD CONSTRAINT orders_user_id_users_id_fk
-  - [ ] Ръчно добави RLS SQL блок в края на migration файла (виж Dev Notes за точен SQL)
-  - [ ] Провери синтаксис на RLS SQL
+- [x] Task 6: Генерирай migration (AC: 5, 6, 7, 8, 9)
+  - [x] `pnpm --filter @kandles/db generate`
+  - [x] Провери: migration включва CREATE TABLE users, marketing_consents, reviews
+  - [x] Провери: migration включва ALTER TABLE orders ADD CONSTRAINT orders_user_id_users_id_fk
+  - [x] Ръчно добави RLS SQL блок в края на migration файла (виж Dev Notes за точен SQL)
+  - [x] Провери синтаксис на RLS SQL
 
-- [ ] Task 7: Typecheck (AC: 11)
-  - [ ] `export PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" && pnpm turbo typecheck`
-  - [ ] 0 TypeScript грешки
+- [x] Task 7: Typecheck (AC: 11)
+  - [x] `export PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" && pnpm turbo typecheck`
+  - [x] 0 TypeScript грешки
 
-- [ ] Task 8: Документирай ръчната Auth стъпка (AC: 4)
-  - [ ] Добави в Completion Notes: точните Supabase Dashboard стъпки за disable sign ups
+- [x] Task 8: Документирай ръчната Auth стъпка (AC: 4)
+  - [x] Добави в Completion Notes: точните Supabase Dashboard стъпки за disable sign ups
 
 ## Dev Notes
 
@@ -303,26 +303,34 @@ isApproved: boolean('is_approved').default(false)  // ГРЕШНО — без .n
 
 ### Agent Model Used
 
-*попълва се при имплементация*
+claude-sonnet-4-6
 
 ### Debug Log References
 
-*попълва се при имплементация*
+Няма блокиращи проблеми. Всички зависимости от Stories 1.3+1.4 налични.
 
 ### Completion Notes List
 
-*попълва се при имплементация*
+- 3 нови schema файла: users.ts, marketing_consents.ts, reviews.ts
+- `users.supabase_auth_id` — UNIQUE constraint, не е PostgreSQL FK (ADR-003)
+- `reviews.rating` CHECK constraint `>= 1 AND <= 5` генериран коректно
+- `orders.user_id` получи FK → users.id (forward reference от Story 1.4 resolved)
+- Migration `0003_grey_korvac.sql` — 3 нови таблици + 1 FK ALTER + RLS SQL блок
+- RLS: 8 таблици с ENABLE ROW LEVEL SECURITY, 2 anon policies (products + reviews)
+- `turbo typecheck → 10/10 successful, 0 грешки`
+- Auth "Disable sign ups": РЪЧНА СТЪПКА — Supabase Dashboard → Authentication → Providers → Email → Disable sign ups = ON
 
 ## File List
 
 - packages/db/src/schema/users.ts *(new)*
 - packages/db/src/schema/marketing_consents.ts *(new)*
 - packages/db/src/schema/reviews.ts *(new)*
-- packages/db/src/schema/orders.ts *(modified — userId добавя .references())*
+- packages/db/src/schema/orders.ts *(modified — userId добавя .references(() => users.id))*
 - packages/db/src/schema/index.ts *(modified — добавя users, marketing_consents, reviews exports)*
-- packages/db/drizzle/migrations/0003_*.sql *(generated + RLS SQL appended)*
+- packages/db/drizzle/migrations/0003_grey_korvac.sql *(generated + RLS SQL appended)*
 - packages/db/drizzle/migrations/meta/_journal.json *(updated)*
 
 ## Change Log
 
 - 2026-06-12: Story създадена — users + marketing_consents + reviews schema + orders FK + RLS policies
+- 2026-06-12: Имплементация завършена — 3 нови таблици, migration 0003, RLS policies, typecheck 0 грешки
