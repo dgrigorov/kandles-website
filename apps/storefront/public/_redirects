@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects
+# SSR mode: routing handled by Workers function
+# Add explicit redirects here as needed
