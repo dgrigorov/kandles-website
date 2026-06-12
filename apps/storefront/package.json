@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.7.0",
+    "@astrojs/react": "^4.0.0",
     "@astrojs/tailwind": "^6.0.2",
     "@kandles/env": "workspace:*",
     "@kandles/types": "workspace:*",
@@ -19,11 +20,15 @@
     "@sentry/cloudflare": "^10.57.0",
     "@supabase/supabase-js": "^2.108.1",
     "astro": "6.4.3",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "eslint": "^9.0.0",
     "typescript": "catalog:"
   }

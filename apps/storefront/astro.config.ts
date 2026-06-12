@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config'
 import cloudflare from '@astrojs/cloudflare'
 import tailwind from '@astrojs/tailwind'
+import react from '@astrojs/react'
 import sentry from '@sentry/astro'
 
 export default defineConfig({
@@ -8,6 +9,7 @@ export default defineConfig({
   adapter: cloudflare(),
   integrations: [
     tailwind(),
+    react(),
     sentry({
       dsn: process.env.SENTRY_DSN_STOREFRONT,
       environment: process.env.NODE_ENV,

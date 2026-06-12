@@ -1,10 +1,11 @@
 ---
-status: ready-for-dev
+status: review
+baseline_commit: 67e105a4e679ad422fc0ff195aaf6283d53c3926
 ---
 
 # Story 2.3: Product grid + occasion filter React Island
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -52,39 +53,39 @@ So that I quickly find the right gift for my specific event.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Install React integration (AC: all — prerequisite)
-  - [ ] Add `@astrojs/react`, `react`, `react-dom` to `apps/storefront/package.json` dependencies
-  - [ ] Add `@types/react`, `@types/react-dom` to devDependencies (catalog: refs)
-  - [ ] Add `react()` integration to `apps/storefront/astro.config.ts`
-  - [ ] Run `pnpm install` to update lockfile
+- [x] Task 1: Install React integration (AC: all — prerequisite)
+  - [x] Add `@astrojs/react`, `react`, `react-dom` to `apps/storefront/package.json` dependencies
+  - [x] Add `@types/react`, `@types/react-dom` to devDependencies (catalog: refs)
+  - [x] Add `react()` integration to `apps/storefront/astro.config.ts`
+  - [x] Run `pnpm install` to update lockfile
 
-- [ ] Task 2: Create `ProductCard.tsx` component (AC: 4, 5, 6, 7, 8)
-  - [ ] Create `apps/storefront/src/components/islands/ProductGrid/types.ts` with shared types
-  - [ ] Create `apps/storefront/src/components/islands/ProductGrid/ProductCard.module.css` with `@keyframes cardReveal` + `animation-timeline: view()` + `@supports` guard + `prefers-reduced-motion`
-  - [ ] Create `apps/storefront/src/components/islands/ProductGrid/ProductCard.tsx` (exact content in Dev Notes)
+- [x] Task 2: Create `ProductCard.tsx` component (AC: 4, 5, 6, 7, 8)
+  - [x] Create `apps/storefront/src/components/islands/ProductGrid/types.ts` with shared types
+  - [x] Create `apps/storefront/src/components/islands/ProductGrid/ProductCard.module.css` with `@keyframes cardReveal` + `animation-timeline: view()` + `@supports` guard + `prefers-reduced-motion`
+  - [x] Create `apps/storefront/src/components/islands/ProductGrid/ProductCard.tsx` (exact content in Dev Notes)
 
-- [ ] Task 3: Create `OccasionFilter.tsx` component (AC: 2, 3)
-  - [ ] Create `apps/storefront/src/components/islands/ProductGrid/OccasionFilter.tsx` (exact content in Dev Notes)
-  - [ ] 5 occasion tiles: "Рожден ден", "Коледа", "8-ми март", "Сватба", "Кръщене"
-  - [ ] `role="radiogroup"` + `role="radio"` + `aria-checked` + Space/Enter keyboard handler
+- [x] Task 3: Create `OccasionFilter.tsx` component (AC: 2, 3)
+  - [x] Create `apps/storefront/src/components/islands/ProductGrid/OccasionFilter.tsx` (exact content in Dev Notes)
+  - [x] 5 occasion tiles: "Рожден ден", "Коледа", "8-ми март", "Сватба", "Кръщене"
+  - [x] `role="radiogroup"` + `role="radio"` + `aria-checked` + Space/Enter keyboard handler
 
-- [ ] Task 4: Create `ProductGrid/index.tsx` island (AC: 1, 2, 3, 9, 10)
-  - [ ] Create `apps/storefront/src/components/islands/ProductGrid/index.tsx` (exact content in Dev Notes)
-  - [ ] State: `selectedOccasion: string | null` — null = show all
-  - [ ] Filter: `product.occasion_tags?.includes(selectedOccasion)` when occasion selected
-  - [ ] `aria-live="polite"` on grid container for AT announcement
+- [x] Task 4: Create `ProductGrid/index.tsx` island (AC: 1, 2, 3, 9, 10)
+  - [x] Create `apps/storefront/src/components/islands/ProductGrid/index.tsx` (exact content in Dev Notes)
+  - [x] State: `selectedOccasion: string | null` — null = show all
+  - [x] Filter: `product.occasion_tags?.includes(selectedOccasion)` when occasion selected
+  - [x] `aria-live="polite"` on grid container for AT announcement
 
-- [ ] Task 5: Wire island in `index.astro` (AC: 1, 9)
-  - [ ] Fetch products via `createServerSupabaseClient()` in Astro frontmatter
-  - [ ] Query: `select('id, title, price, stock, occasion_tags, product_images(url, alt_text, is_hero, sort_order)')` `.eq('is_archived', false)` `.order('created_at', { ascending: false })`
-  - [ ] Replace `<!-- TODO: ProductGrid React Island added in Story 2.3 -->` with `<ProductGrid client:visible products={products ?? []} />`
-  - [ ] Handle `error` from Supabase (log to console, pass empty array on error)
-  - [ ] Import `ProductGrid` from `../components/islands/ProductGrid`
+- [x] Task 5: Wire island in `index.astro` (AC: 1, 9)
+  - [x] Fetch products via `createServerSupabaseClient()` in Astro frontmatter
+  - [x] Query: `select('id, title, price, stock, occasion_tags, product_images(url, alt_text, is_hero, sort_order)')` `.eq('is_archived', false)` `.order('created_at', { ascending: false })`
+  - [x] Replace `<!-- TODO: ProductGrid React Island added in Story 2.3 -->` with `<ProductGrid client:visible products={products ?? []} />`
+  - [x] Handle `error` from Supabase (log to console, pass empty array on error)
+  - [x] Import `ProductGrid` from `../components/islands/ProductGrid`
 
-- [ ] Task 6: Validate (AC: all)
-  - [ ] `pnpm --filter @kandles/storefront lint` → 0 errors
-  - [ ] `pnpm --filter @kandles/storefront build` (Node 22) → clean
-  - [ ] TypeScript: `pnpm --filter @kandles/storefront typecheck` → expected to fail on Node v20; use Node 22 if checking
+- [x] Task 6: Validate (AC: all)
+  - [x] `pnpm --filter @kandles/storefront lint` → 0 errors
+  - [x] `pnpm --filter @kandles/storefront build` (Node 22) → clean
+  - [x] TypeScript: `pnpm --filter @kandles/storefront typecheck` → expected to fail on Node v20; use Node 22 if checking
 
 ## Dev Notes
 
@@ -581,10 +582,41 @@ The `#produkti` section sits outside any `data-theme` wrapper. The hero has `dat
 
 ### Agent Model Used
 
+claude-sonnet-4-6
+
 ### Debug Log References
+
+- Build clean on first attempt — no issues
+- Lint 0 errors — all TSX files pass ESLint
+- `@astrojs/react@4.4.2` installed (^4.0.0 resolved to latest 4.x)
+- `@astrojs/tailwind` peer dep warning pre-existing from Story 2.1 (in deferred-work.md)
 
 ### Completion Notes List
 
+- Installed `@astrojs/react@4.4.2`, `react@19`, `react-dom@19`, `@types/react@19`, `@types/react-dom@19` via catalog refs
+- Added `react()` integration to `astro.config.ts` between `tailwind()` and `sentry()`
+- Created `src/components/islands/ProductGrid/` directory with 5 files
+- `types.ts`: `ProductImage`, `ProductWithImages` interfaces + `OCCASIONS` const (5 tiles) + `Occasion` type
+- `ProductCard.module.css`: `@keyframes cardReveal` + `@supports (animation-timeline: view())` guard + `prefers-reduced-motion` guard
+- `ProductCard.tsx`: hero image selection, `formatPrice()` (parseFloat + Bulgarian format), out-of-stock badge (always visible), low-stock badge (hover/focus only via CSS group), amber box-shadow on hover (no CLS), disabled add-to-cart for stock=0
+- `OccasionFilter.tsx`: 5 tiles, `role="radiogroup"`, each `role="radio"` with `aria-checked`, click + Space/Enter handlers, deselectable (toggle behavior)
+- `index.tsx`: `useState<Occasion | null>`, filter logic, `aria-live="polite"` on results, Bulgarian empty state message, 2-col mobile / 3-col desktop grid
+- `index.astro`: Supabase nested select query, `client:visible` directive, `data-theme="light"` on `#produkti` section, error logging
+
 ### File List
 
+- `apps/storefront/package.json` — modified: added @astrojs/react, react, react-dom, @types/react, @types/react-dom
+- `apps/storefront/astro.config.ts` — modified: added react() integration import + usage
+- `apps/storefront/src/components/islands/ProductGrid/types.ts` — new
+- `apps/storefront/src/components/islands/ProductGrid/ProductCard.module.css` — new
+- `apps/storefront/src/components/islands/ProductGrid/ProductCard.tsx` — new
+- `apps/storefront/src/components/islands/ProductGrid/OccasionFilter.tsx` — new
+- `apps/storefront/src/components/islands/ProductGrid/index.tsx` — new
+- `apps/storefront/src/pages/index.astro` — modified: added Supabase fetch + ProductGrid island
+- `pnpm-lock.yaml` — modified: lockfile updated with new deps
+- `_bmad-output/implementation-artifacts/2-3-product-grid-occasion-filter-react-island.md` — status + tasks updated
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` — story status updated
+
 ## Change Log
+
+- 2026-06-12: Story 2.3 implemented — React island ProductGrid with occasion filter, Supabase server-side fetch, scroll-driven animation, stock badges, amber hover ring
