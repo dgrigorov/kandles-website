@@ -51,3 +51,8 @@
 - `apps/storefront/wrangler.toml` compatibility_date "2025-01-01" — minor staleness; update in Story 1.7 alongside CF Pages deploy config
 - `apps/admin/vercel.json` function timeout/region limits — not required for MVP; add in Story 1.7 CI/CD
 - `apps/storefront/src/lib/supabase.ts` + CF Pages import.meta.env static replacement nuance — standard @astrojs/cloudflare pattern; revisit if runtime env binding issues arise
+
+## Deferred from: code review of 1-8-self-hosted-fonts-brand-css-design-tokens (2026-06-12)
+
+- `e2e/fonts.spec.ts` — test doesn't await `networkidle`; low-risk (preload fires before load event), but add `waitForLoadState('networkidle')` in a future e2e hardening story
+- `e2e/fonts.spec.ts` — test doesn't assert HTTP 200 from `/`; false-pass if route returns 404; validate page response status in Story 2.x e2e suite
