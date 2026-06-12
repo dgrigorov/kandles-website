@@ -13,6 +13,7 @@
   "dependencies": {
     "@axiomhq/pino": "^1.6.1",
     "@kandles/db": "workspace:*",
+    "drizzle-orm": "catalog:",
     "@kandles/env": "workspace:*",
     "@kandles/types": "workspace:*",
     "@sentry/nextjs": "^10.57.0",
