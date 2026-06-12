@@ -1,0 +1,307 @@
+---
+export const prerender = false
+
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import AromaPyramid from '../../components/ui/AromaPyramid.astro'
+import { KandlesIcon } from '@kandles/ui'
+import { createServerSupabaseClient } from '../../lib/supabase'
+
+const { slug } = Astro.params
+const supabase = createServerSupabaseClient()
+
+const { data: product } = await supabase
+  .from('products')
+  .select(`
+    id,
+    slug,
+    title,
+    description,
+    price,
+    stock,
+    production_days,
+    occasion_tags,
+    scent_notes,
+    product_images (
+      url,
+      alt_text,
+      is_hero,
+      sort_order
+    )
+  `)
+  .eq('slug', slug)
+  .eq('is_archived', false)
+  .single()
+
+if (!product) {
+  return Astro.redirect('/404')
+}
+
+interface ProductImage {
+  url: string
+  alt_text: string
+  is_hero: boolean
+  sort_order: number
+}
+
+interface ScentNote {
+  label: string
+  description: string
+}
+
+interface ScentNotes {
+  top: ScentNote
+  heart: ScentNote
+  base: ScentNote
+}
+
+interface RelatedProduct {
+  id: string
+  slug: string | null
+  title: string
+  price: string
+  stock: number
+  product_images: ProductImage[]
+}
+
+// Related products: same occasion tag, exclude current, max 3
+let relatedProducts: RelatedProduct[] = []
+const tags = product.occasion_tags as string[] | null
+if (tags && tags.length > 0) {
+  const { data: related } = await supabase
+    .from('products')
+    .select(`
+      id, slug, title, price, stock,
+      product_images (url, alt_text, is_hero, sort_order)
+    `)
+    .eq('is_archived', false)
+    .not('slug', 'is', null)
+    .neq('id', product.id)
+    .contains('occasion_tags', [tags[0]])
+    .limit(3)
+  relatedProducts = (related as RelatedProduct[]) ?? []
+}
+
+function getHeroImage(images: ProductImage[]): ProductImage | null {
+  return (
+    images.find((img) => img.is_hero) ??
+    [...images].sort((a, b) => a.sort_order - b.sort_order)[0] ??
+    null
+  )
+}
+
+function formatPrice(priceStr: string): string {
+  const price = parseFloat(priceStr)
+  if (isNaN(price)) return '—'
+  return price % 1 === 0 ? `${price.toFixed(0)} лв.` : `${price.toFixed(2)} лв.`
+}
+
+const images = product.product_images as unknown as ProductImage[]
+const heroImage = getHeroImage(images)
+const scentNotes = product.scent_notes as ScentNotes | null
+const productionDays = product.production_days as number | null
+const description = product.description as string | null
+---
+
+<BaseLayout title={`${product.title} | Kandles.bg`}>
+  {heroImage && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      fetchpriority="high"
+      href={heroImage.url}
+    />
+  )}
+
+  <main id="main-content">
+
+    <!-- 1. Full-bleed hero (dark colorway) -->
+    <section class="product-hero" data-theme="dark" aria-label={product.title as string}>
+      {heroImage ? (
+        <div class="relative overflow-hidden" style="height: 60vh">
+          <img
+            src={heroImage.url}
+            alt={heroImage.alt_text}
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div
+            class="product-hero-overlay absolute inset-0 opacity-0"
+            style="background: var(--color-sand)"
+            aria-hidden="true"
+          />
+        </div>
+      ) : (
+        <div style="height: 40vh; background: var(--color-chocolate)" />
+      )}
+    </section>
+
+    <!-- 2–7: Content sections (light colorway) -->
+    <div data-theme="light" style="background: var(--color-sand)">
+
+      <!-- 2. Product title + brand voice description -->
+      <section class="max-w-2xl mx-auto px-6 py-16" aria-labelledby="product-title">
+        <h1
+          id="product-title"
+          class="mb-6"
+          style={`font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; line-height: 1.2; color: var(--color-chocolate)`}
+        >
+          {product.title}
+        </h1>
+        {description && (
+          <p style="font-family: var(--font-display); font-size: 22px; line-height: 1.6; color: var(--color-chocolate)">
+            {description}
+          </p>
+        )}
+      </section>
+
+      <!-- 3. Aroma pyramid (only if scent_notes present) -->
+      {scentNotes && (
+        <section class="max-w-2xl mx-auto px-6 pb-16" aria-labelledby="aroma-heading">
+          <h2
+            id="aroma-heading"
+            style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--color-chocolate); margin-bottom: 2rem"
+          >
+            Аромат
+          </h2>
+          <AromaPyramid scentNotes={scentNotes} />
+        </section>
+      )}
+
+      <!-- 4. "Как се прави" — 3 hardcoded brand process steps -->
+      <section class="max-w-2xl mx-auto px-6 pb-16" aria-labelledby="process-heading">
+        <h2
+          id="process-heading"
+          style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--color-chocolate); margin-bottom: 2rem"
+        >
+          Как се прави
+        </h2>
+        <ol style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 2rem">
+          {[
+            { label: 'Избираш свещта и повода',              variant: 'badge' as const },
+            { label: 'Стефка изработва специално за теб',    variant: 'flame' as const },
+            { label: 'Доставка до твоя адрес',               variant: 'pot'   as const },
+          ].map((step) => (
+            <li style="display: flex; align-items: flex-start; gap: 1rem">
+              <span style="flex-shrink: 0; margin-top: 2px" aria-hidden="true">
+                <KandlesIcon variant={step.variant} size="md" colorway="amber" aria-hidden={true} />
+              </span>
+              <p style="font-family: var(--font-ui); font-size: 1.125rem; color: var(--color-chocolate); margin: 0">
+                {step.label}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- 5. Production time + Стефка note (UX-DR10) -->
+      <section class="max-w-2xl mx-auto px-6 pb-16" aria-label="Срок на изработка">
+        {productionDays != null && (
+          <p style="font-family: var(--font-ui); font-size: 1rem; color: var(--color-chocolate); margin-bottom: 0.75rem">
+            Твоята свещ ще бъде готова за {productionDays} дни — направена специално за теб.
+          </p>
+        )}
+        <p style="font-family: var(--font-display); font-size: 0.875rem; color: var(--color-chocolate); opacity: 0.7; font-style: italic">
+          Направено от ръцете на Стефка
+        </p>
+      </section>
+
+      <!-- 6. Specs accordion (native HTML, no JS) -->
+      <section class="max-w-2xl mx-auto px-6 pb-16" aria-label="Характеристики">
+        <details style="border: 1px solid color-mix(in srgb, var(--color-chocolate) 20%, transparent); border-radius: 0.375rem; overflow: hidden">
+          <summary style="padding: 0.75rem 1rem; cursor: pointer; font-family: var(--font-ui); font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-chocolate); user-select: none">
+            Детайли
+          </summary>
+          <div style="padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.5rem">
+            <p style="font-family: var(--font-ui); font-size: 0.875rem; color: var(--color-chocolate); margin: 0">
+              Цена: {formatPrice(product.price as string)}
+            </p>
+            {(product.occasion_tags as string[] | null)?.length && (
+              <p style="font-family: var(--font-ui); font-size: 0.875rem; color: var(--color-chocolate); margin: 0">
+                Подходящ за: {(product.occasion_tags as string[]).join(', ')}
+              </p>
+            )}
+            <!-- TODO: Add weight, dimensions, burn time fields when admin CRUD (Story 5.4) adds them -->
+          </div>
+        </details>
+      </section>
+
+      <!-- 7. Related products -->
+      {relatedProducts.length > 0 && (
+        <section class="max-w-4xl mx-auto px-6 pb-16" aria-labelledby="related-heading">
+          <h2
+            id="related-heading"
+            style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--color-chocolate); margin-bottom: 2rem"
+          >
+            Може да харесаш и
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem">
+            {relatedProducts.map((rp) => {
+              const rpHero = getHeroImage(rp.product_images)
+              return (
+                <a
+                  href={`/produkti/${rp.slug}`}
+                  style="display: block; text-decoration: none"
+                  aria-label={`${rp.title} — ${formatPrice(rp.price)}`}
+                >
+                  <article style="display: flex; flex-direction: column; background: white; transition: box-shadow 0.15s">
+                    <div style="aspect-ratio: 1; overflow: hidden; background: var(--color-sand)">
+                      {rpHero ? (
+                        <img
+                          src={rpHero.url}
+                          alt={rpHero.alt_text}
+                          style="width: 100%; height: 100%; object-fit: cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0.3">
+                          <KandlesIcon variant="flame" size="lg" colorway="chocolate" aria-hidden={true} />
+                        </div>
+                      )}
+                    </div>
+                    <div style="padding: 0.75rem">
+                      <p style="font-family: var(--font-display); font-size: 1rem; color: var(--color-chocolate); margin: 0 0 0.25rem">
+                        {rp.title}
+                      </p>
+                      <p style="font-family: var(--font-ui); font-size: 0.875rem; color: var(--color-amber); margin: 0">
+                        {formatPrice(rp.price)}
+                      </p>
+                    </div>
+                  </article>
+                </a>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .product-hero-overlay {
+    transition: opacity 0.3s ease;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media not (prefers-reduced-motion: reduce) {
+      .product-hero-overlay {
+        animation: heroOverlay linear both;
+        animation-timeline: scroll();
+        animation-range: 0% 40%;
+      }
+
+      @keyframes heroOverlay {
+        from { opacity: 0; }
+        to   { opacity: 0.25; }
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .product-hero .relative {
+      height: 80vh !important;
+    }
+  }
+</style>

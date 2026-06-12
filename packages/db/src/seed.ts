@@ -27,12 +27,42 @@ async function seed() {
   ]).onConflictDoNothing()
 
   await db.insert(products).values([
-    { id: PRODUCT_IDS[0], title: 'Розова пролет',          price: '45.00', stock: 10, productionDays: 2, occasionTags: ['birthday', 'mothers_day']  },
-    { id: PRODUCT_IDS[1], title: 'Слънчоглед и лавандула', price: '55.00', stock: 8,  productionDays: 3, occasionTags: ['birthday', 'anniversary']   },
-    { id: PRODUCT_IDS[2], title: 'Коледна звезда',         price: '65.00', stock: 15, productionDays: 2, occasionTags: ['christmas', 'new_year']     },
-    { id: PRODUCT_IDS[3], title: 'Зимна приказка',         price: '80.00', stock: 5,  productionDays: 4, occasionTags: ['christmas', 'anniversary']  },
-    { id: PRODUCT_IDS[4], title: 'Релакс комплект',        price: '95.00', stock: 7,  productionDays: 3, occasionTags: ['birthday', 'valentines']    },
-    { id: PRODUCT_IDS[5], title: 'Нежен момент',           price: '70.00', stock: 6,  productionDays: 3, occasionTags: ['anniversary', 'valentines'] },
+    {
+      id: PRODUCT_IDS[0], title: 'Розова пролет', price: '45.00', stock: 10, productionDays: 2,
+      occasionTags: ['birthday', 'mothers_day'],
+      slug: 'rozova-prolet',
+      scentNotes: { top: { label: 'Роза', description: 'Нежен розов цвят на разсъмване' }, heart: { label: 'Жасмин', description: 'Топла флорална сърцевина' }, base: { label: 'Бяло дърво', description: 'Меко дървесно усещане, трайно и уютно' } },
+    },
+    {
+      id: PRODUCT_IDS[1], title: 'Слънчоглед и лавандула', price: '55.00', stock: 8, productionDays: 3,
+      occasionTags: ['birthday', 'anniversary'],
+      slug: 'slanchogledi-lavandula',
+      scentNotes: { top: { label: 'Лавандула', description: 'Свеж провансалски дъх' }, heart: { label: 'Слънчоглед', description: 'Слънчева, топла сърцевина' }, base: { label: 'Мускус', description: 'Чист и ненатрапчив финал' } },
+    },
+    {
+      id: PRODUCT_IDS[2], title: 'Коледна звезда', price: '65.00', stock: 15, productionDays: 2,
+      occasionTags: ['christmas', 'new_year'],
+      slug: 'koledna-zvezda',
+      scentNotes: { top: { label: 'Ела', description: 'Горски дъх на студена зима' }, heart: { label: 'Канела', description: 'Топла коледна прегръдка' }, base: { label: 'Кехлибар', description: 'Дълбоко, богато и уютно' } },
+    },
+    {
+      id: PRODUCT_IDS[3], title: 'Зимна приказка', price: '80.00', stock: 5, productionDays: 4,
+      occasionTags: ['christmas', 'anniversary'],
+      slug: 'zimna-prikazka',
+      scentNotes: { top: { label: 'Мента', description: 'Искряща, свежа и зимна' }, heart: { label: 'Ванилия', description: 'Сладка и топла сърцевина' }, base: { label: 'Сандалово дърво', description: 'Кремообразен, дълготраен финал' } },
+    },
+    {
+      id: PRODUCT_IDS[4], title: 'Релакс комплект', price: '95.00', stock: 7, productionDays: 3,
+      occasionTags: ['birthday', 'valentines'],
+      slug: 'relaks-komplet',
+      scentNotes: { top: { label: 'Евкалипт', description: 'Свеж и изчистващ дъх' }, heart: { label: 'Лавандула', description: 'Успокояваща, балансираща сърцевина' }, base: { label: 'Бял чай', description: 'Деликатен и нежен финал' } },
+    },
+    {
+      id: PRODUCT_IDS[5], title: 'Нежен момент', price: '70.00', stock: 6, productionDays: 3,
+      occasionTags: ['anniversary', 'valentines'],
+      slug: 'nezhen-moment',
+      scentNotes: { top: { label: 'Перски люляк', description: 'Свеж и романтичен' }, heart: { label: 'Орхидея', description: 'Екзотична флорална сърцевина' }, base: { label: 'Мускус', description: 'Топъл и нежен финал' } },
+    },
   ]).onConflictDoNothing()
 
   await db.insert(productCollections).values([

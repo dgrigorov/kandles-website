@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, numeric, integer, boolean, smallint, timestamp, index, check } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, text, numeric, integer, boolean, smallint, timestamp, index, check, jsonb } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 import { seasonEnum } from './enums'
 
@@ -14,6 +14,8 @@ export const products = pgTable('products', {
   isArchived:     boolean('is_archived').notNull().default(false),
   productionDays: smallint('production_days'),
   occasionTags:   text('occasion_tags').array(),
+  slug:           varchar('slug', { length: 100 }).unique(),
+  scentNotes:     jsonb('scent_notes'),
   createdAt:      timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt:      timestamp('updated_at', { withTimezone: true }).notNull().defaultNow().$onUpdateFn(() => new Date()),
 }, (table) => [

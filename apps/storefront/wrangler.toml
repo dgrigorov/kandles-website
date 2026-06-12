@@ -2,3 +2,6 @@ name = "kandles-storefront"
 pages_build_output_dir = "dist"
 compatibility_date = "2025-10-01"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+binding = "STATIC_ASSETS"

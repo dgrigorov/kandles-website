@@ -7,6 +7,7 @@ export interface ProductImage {
 
 export interface ProductWithImages {
   id: string
+  slug: string | null
   title: string
   price: string  // PostgreSQL numeric → string; parseFloat() before display
   stock: number

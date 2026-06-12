@@ -5,7 +5,7 @@ import react from '@astrojs/react'
 import sentry from '@sentry/astro'
 
 export default defineConfig({
-  output: 'server',
+  output: 'static',
   adapter: cloudflare(),
   integrations: [
     tailwind(),

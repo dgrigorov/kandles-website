@@ -26,7 +26,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const isOutOfStock = product.stock === 0
   const isLowStock = product.stock > 0 && product.stock <= 5
 
-  return (
+  const cardContent = (
     <article
       className={`${styles.card} group relative flex flex-col bg-white hover:[box-shadow:0_0_0_2px_var(--color-amber)] focus-within:[box-shadow:0_0_0_2px_var(--color-amber)] transition-shadow`}
     >
@@ -90,6 +90,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           type="button"
           disabled={isOutOfStock}
           aria-disabled={isOutOfStock}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
           className={`w-full py-2 px-4 text-sm font-medium uppercase tracking-widest rounded transition-opacity
             ${isOutOfStock
               ? 'bg-[var(--color-sand)] text-[var(--color-chocolate)] opacity-50 cursor-not-allowed'
@@ -102,4 +103,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
     </article>
   )
+
+  return product.slug ? (
+    <a
+      href={`/produkti/${product.slug}`}
+      className="block no-underline"
+      aria-label={`${product.title} — ${formatPrice(product.price)}`}
+    >
+      {cardContent}
+    </a>
+  ) : cardContent
 }

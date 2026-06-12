@@ -1,0 +1,68 @@
+---
+interface ScentNote {
+  label: string
+  description: string
+}
+interface Props {
+  scentNotes: {
+    top: ScentNote
+    heart: ScentNote
+    base: ScentNote
+  }
+}
+const { scentNotes } = Astro.props
+const notes = [
+  { key: 'top',   ...scentNotes.top,   colorClass: 'bg-[var(--color-amber)]',     textClass: 'text-[var(--color-cream)]',     widthClass: 'w-[40%]'  },
+  { key: 'heart', ...scentNotes.heart, colorClass: 'bg-[var(--color-chocolate)]', textClass: 'text-[var(--color-cream)]',     widthClass: 'w-[70%]'  },
+  { key: 'base',  ...scentNotes.base,  colorClass: 'bg-[var(--color-sand)]',      textClass: 'text-[var(--color-chocolate)]', widthClass: 'w-[100%]' },
+]
+---
+
+<div
+  class="aroma-pyramid flex flex-col items-center gap-2 py-8"
+  aria-label="Аромат на свещта"
+>
+  {notes.map((note) => (
+    <div
+      class={`aroma-layer relative ${note.widthClass} py-3 px-4 rounded flex items-center justify-center ${note.colorClass} ${note.textClass} cursor-default`}
+      style={note.key === 'base' ? 'border: 2px solid var(--color-chocolate)' : undefined}
+      tabindex="0"
+      aria-describedby={`tooltip-${note.key}`}
+    >
+      <span
+        class="text-sm font-medium uppercase tracking-wide"
+        style="font-family: var(--font-ui)"
+      >
+        {note.label}
+      </span>
+
+      <div
+        id={`tooltip-${note.key}`}
+        role="tooltip"
+        class="aroma-tooltip absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[240px] px-3 py-2 rounded text-sm text-center bg-[var(--color-chocolate)] text-[var(--color-cream)] opacity-0 invisible pointer-events-none transition-opacity z-10"
+        style="font-family: var(--font-ui)"
+      >
+        {note.description}
+        <span
+          class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[var(--color-chocolate)]"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  @media (max-width: 767px) {
+    .aroma-layer {
+      width: 100% !important;
+    }
+  }
+
+  .aroma-layer:hover .aroma-tooltip,
+  .aroma-layer:focus .aroma-tooltip,
+  .aroma-layer:focus-within .aroma-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
