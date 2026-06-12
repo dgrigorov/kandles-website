@@ -1,5 +1,4 @@
-import 'server-only'
-import { createEnv } from '@t3-oss/env-core'
+import { createEnv } from '@t3-oss/env-nextjs'
 import { z } from 'zod'
 
 export const env = createEnv({
@@ -24,8 +23,15 @@ export const env = createEnv({
     TURNSTILE_SECRET_KEY: z.string().min(1),
     META_CAPI_ACCESS_TOKEN: z.string().min(1),
     PREVIEW_JWT_SECRET: z.string().min(32),
+    SENTRY_DSN_ADMIN: z.string().url(),
     FALLBACK_SHIPPING_PRICE_BGN: z.coerce.number().positive(),
   },
-  runtimeEnv: process.env,
+  client: {
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
+  },
+  // Next.js >=13.4.4: only client-side vars need explicit destructuring
+  experimental__runtimeEnv: {
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  },
   emptyStringAsUndefined: true,
 })

@@ -1,5 +1,5 @@
 # generated: 2026-06-11
-# last_updated: 2026-06-11
+# last_updated: 2026-06-12
 # project: Kandles.bg
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-06-11
-last_updated: 2026-06-11
+last_updated: 2026-06-12
 project: Kandles.bg
 project_key: NOKEY
 tracking_system: file-system
@@ -45,7 +45,7 @@ development_status:
   # ─── Epic 1: Platform Foundation ───
   epic-1: in-progress
   1-1-turborepo-monorepo-shared-packages-scaffold: done
-  1-2-environment-validation-secrets-management: backlog
+  1-2-environment-validation-secrets-management: done
   1-3-core-db-schema-products-collections-drizzle-migration-strategy: backlog
   1-4-orders-checkout-db-schema: backlog
   1-5-users-auth-supabase-rls-policies: backlog
