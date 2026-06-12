@@ -6,7 +6,7 @@ import { orders } from './orders'
 export const reviews = pgTable('reviews', {
   id:         uuid('id').primaryKey().default(sql`gen_random_uuid()`),
   productId:  uuid('product_id').notNull().references(() => products.id, { onDelete: 'cascade' }),
-  orderId:    uuid('order_id').references(() => orders.id),
+  orderId:    uuid('order_id').references(() => orders.id, { onDelete: 'set null' }),
   rating:     smallint('rating').notNull(),
   text:       text('text'),
   imageUrl:   text('image_url'),

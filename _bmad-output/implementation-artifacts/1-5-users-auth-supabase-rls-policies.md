@@ -4,7 +4,7 @@ baseline_commit: 2f79ea040353c1571ee562d9f54b611db65d6732
 
 # Story 1.5: Users + Auth + Supabase RLS policies
 
-Status: review
+Status: done
 
 ## Story
 
