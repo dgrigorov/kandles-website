@@ -73,6 +73,11 @@
 - `apps/storefront/src/styles/tokens.css:45` — Asymmetric seasonal coverage (winter/summer override `--color-sand`, spring/autumn do not); confirm with designer in Story 2.5
 - `apps/storefront/src/layouts/BaseLayout.astro:27` — SVG sprite rendered before `<slot>` in body DOM; reorder after `<slot>` during Story 2.10 full layout finalisation
 
+## Deferred from: code review of 2-2-editorial-hero-section (2026-06-12)
+
+- `apps/storefront/src/components/ui/HeroSection.astro:33` — SVG `<text>` placeholder uses `font-family="'Cormorant Garamond', serif"` attribute; CSS font inheritance in SVG is not guaranteed cross-browser; deferred because this is a placeholder SVG explicitly marked TODO — replace with final artwork from designer before launch
+- `apps/storefront/src/pages/index.astro:20` — Empty `<section id="produkti" aria-label="Продукти">` announces a region to AT with no content; intentional placeholder for Story 2.3 product grid; add `aria-busy` or remove `aria-label` until content exists if AT feedback is received
+
 ## Deferred from: code review of 1-9-sentry-monitoring-stack-setup (2026-06-12)
 
 - `apps/storefront/astro.config.ts` — `tracesSampleRate: 0.1` hardcoded in @sentry/astro integration; dev builds also get 0.1 instead of 1.0; minor dev experience impact; fix in future monitoring hardening story

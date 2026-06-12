@@ -59,7 +59,7 @@ development_status:
   # ─── Epic 2: Продуктов Каталог & Brand Experience ───
   epic-2: in-progress
   2-1-brand-design-system-component-library: done
-  2-2-editorial-hero-section: backlog
+  2-2-editorial-hero-section: done
   2-3-product-grid-occasion-filter-react-island: backlog
   2-4-editorial-product-page: backlog
   2-5-seasonal-display-last-minute-section: backlog

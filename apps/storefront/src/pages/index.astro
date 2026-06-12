@@ -1,9 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import HeroSection from '../components/ui/HeroSection.astro'
 ---
 
-<BaseLayout title="Kandles">
-  <main>
-    <h1>Kandles</h1>
+<BaseLayout title="Kandles.bg | Ръчно изработени свещи от Стефка Григорова">
+  <!-- Hero image preload — must be in <head> for LCP (UX-DR5) -->
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    fetchpriority="high"
+    href="/images/hero-poster.jpg"
+  />
+
+  <main id="main-content">
+    <HeroSection />
+
+    <!-- Story 2.3: Product grid section (occasion filter React Island) -->
+    <section id="produkti" aria-label="Продукти">
+      <!-- TODO: ProductGrid React Island added in Story 2.3 -->
+    </section>
   </main>
 </BaseLayout>
