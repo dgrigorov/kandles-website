@@ -3,31 +3,100 @@ export const prerender = false
 
 import BaseLayout from '../layouts/BaseLayout.astro'
 import HeroSection from '../components/ui/HeroSection.astro'
+import LastMinuteSection from '../components/ui/LastMinuteSection.astro'
 import ProductGrid from '../components/islands/ProductGrid/index'
 import { createServerSupabaseClient } from '../lib/supabase'
+import { getCurrentMonth } from '../lib/seasonal'
 
 const supabase = createServerSupabaseClient()
-const { data: products, error } = await supabase
-  .from('products')
-  .select(`
-    id,
-    slug,
-    title,
-    price,
-    stock,
-    occasion_tags,
-    product_images (
-      url,
-      alt_text,
-      is_hero,
-      sort_order
-    )
-  `)
-  .eq('is_archived', false)
-  .order('created_at', { ascending: false })
+const currentMonth = getCurrentMonth()
 
-if (error) {
-  console.error('[index] products fetch error:', error.message)
+// Queries 1–3 are independent — run in parallel
+const [
+  { data: lastMinuteProducts, error: lmError },
+  { data: seasonalCollection },
+  { data: allProducts, error: prodError },
+] = await Promise.all([
+  // Last-minute products: is_last_minute = true AND stock > 0
+  supabase
+    .from('products')
+    .select(`
+      id,
+      slug,
+      title,
+      price,
+      stock,
+      product_images (
+        url,
+        alt_text,
+        is_hero,
+        sort_order
+      )
+    `)
+    .eq('is_last_minute', true)
+    .gt('stock', 0)
+    .eq('is_archived', false)
+    .order('created_at', { ascending: false }),
+  // Seasonal collection: find collection whose month range covers current month.
+  // Cross-year ranges (e.g. winter Dec→Feb) are not handled — seed data stays within single-year ranges.
+  supabase
+    .from('collections')
+    .select('id')
+    .lte('season_start_month', currentMonth)
+    .gte('season_end_month', currentMonth)
+    .eq('is_active', true)
+    .limit(1)
+    .maybeSingle(),
+  // All products (default: created_at DESC)
+  supabase
+    .from('products')
+    .select(`
+      id,
+      slug,
+      title,
+      price,
+      stock,
+      occasion_tags,
+      product_images (
+        url,
+        alt_text,
+        is_hero,
+        sort_order
+      )
+    `)
+    .eq('is_archived', false)
+    .order('created_at', { ascending: false }),
+])
+
+if (lmError) {
+  console.error('[index] last-minute products fetch error:', lmError.message)
+}
+if (prodError) {
+  console.error('[index] products fetch error:', prodError.message)
+}
+
+// Seasonal priority sort: seasonal collection products first (by sort_order), then rest
+let products = allProducts ?? []
+if (seasonalCollection) {
+  const { data: collectionLinks, error: clError } = await supabase
+    .from('product_collections')
+    .select('product_id')
+    .eq('collection_id', seasonalCollection.id)
+    .order('sort_order', { ascending: true })
+
+  if (clError) {
+    console.error('[index] collection links fetch error:', clError.message)
+  }
+
+  const priorityIds = (collectionLinks ?? []).map(l => l.product_id as string)
+  const prioritySet = new Set(priorityIds)
+
+  const seasonalProducts = priorityIds
+    .map(id => products.find(p => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => p != null)
+  const remaining = products.filter(p => !prioritySet.has(p.id))
+
+  products = [...seasonalProducts, ...remaining]
 }
 ---
 
@@ -44,7 +113,9 @@ if (error) {
     <HeroSection />
 
     <section id="produkti" aria-label="Продукти" data-theme="light">
-      <ProductGrid client:visible products={products ?? []} />
+      <ProductGrid client:visible products={products} />
     </section>
+
+    <LastMinuteSection products={lastMinuteProducts ?? []} />
   </main>
 </BaseLayout>

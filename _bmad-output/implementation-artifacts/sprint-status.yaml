@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-06-11
-last_updated: 2026-06-12  # Story 2.4 done
+last_updated: 2026-06-12  # Story 2.5 done
 project: Kandles.bg
 project_key: NOKEY
 tracking_system: file-system
@@ -62,7 +62,7 @@ development_status:
   2-2-editorial-hero-section: done
   2-3-product-grid-occasion-filter-react-island: done
   2-4-editorial-product-page: done
-  2-5-seasonal-display-last-minute-section: backlog
+  2-5-seasonal-display-last-minute-section: done
   2-6-occasion-ssg-landing-pages: backlog
   2-7-comprehensive-schema-org-sitemap-robots: backlog
   2-8-cookie-consent-banner-legal-pages: backlog

@@ -1,5 +1,12 @@
 # Deferred Work
 
+## Deferred from: code review of 2-5-seasonal-display-last-minute-section (2026-06-12)
+
+- `apps/storefront/src/pages/index.astro:36` — Cross-year winter collection (Dec→Feb) unhandled; DB CHECK constraint `season_start_month <= season_end_month` blocks inserting such a collection anyway; documented in code comment; address if a winter seasonal collection spanning year boundary is ever needed
+- `apps/storefront/src/components/ui/LastMinuteSection.astro` — All product images use `loading="lazy"`; section is below fold (after hero + product grid) so not a real LCP concern; revisit if section placement ever moves above fold
+- `apps/storefront/src/pages/index.astro` — allProducts Supabase error → empty product grid with no user-visible feedback (logged to console); existing behavior pattern from prior stories; address with a proper error page in Story 2.9 (branded error pages)
+- Admin collection override (AC3) — No override mechanism implemented; story explicitly defers to Story 5.x admin UI; `is_active` boolean on collections table provides the infrastructure when admin CRUD (Story 5.4) is built
+
 ## Deferred from: code review of 1-1-turborepo-monorepo-shared-packages-scaffold (2026-06-12)
 
 - `packages/*/package.json` source exports (`./src/index.ts`) — add `transpilePackages: ['@kandles/db', '@kandles/types', '@kandles/env', '@kandles/ui', '@kandles/email']` to `apps/admin/next.config.ts` when real imports are added (Story 1.2+)

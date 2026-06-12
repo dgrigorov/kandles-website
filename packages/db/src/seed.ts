@@ -60,6 +60,7 @@ async function seed() {
     {
       id: PRODUCT_IDS[5], title: 'Нежен момент', price: '70.00', stock: 6, productionDays: 3,
       occasionTags: ['anniversary', 'valentines'],
+      isLastMinute: true,
       slug: 'nezhen-moment',
       scentNotes: { top: { label: 'Перски люляк', description: 'Свеж и романтичен' }, heart: { label: 'Орхидея', description: 'Екзотична флорална сърцевина' }, base: { label: 'Мускус', description: 'Топъл и нежен финал' } },
     },
