@@ -4,6 +4,13 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,11 +20,11 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.15.9
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.12
           cache: pnpm
 
       - name: Install dependencies
@@ -58,16 +65,14 @@ jobs:
           FALLBACK_SHIPPING_PRICE_BGN: "8.99"
 
       - name: Deploy Admin (Vercel)
-        run: |
-          pnpm dlx vercel --prod \
-            --token ${{ secrets.VERCEL_TOKEN }} \
-            --cwd apps/admin \
-            --yes
+        run: pnpm dlx vercel --prod --cwd apps/admin --yes
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
 
       - name: Deploy Storefront (Cloudflare Pages)
+        id: cf-deploy
         run: |
           pnpm dlx wrangler pages deploy apps/storefront/dist \
             --project-name kandles-storefront \

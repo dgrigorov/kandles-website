@@ -767,6 +767,47 @@ So that local dev starts with realistic data and production DB doesn't accumulat
 
 ---
 
+### Story 2.0: Design Book — Storybook setup в packages/ui
+
+As a developer,
+I want a Storybook instance in `packages/ui` that documents brand colors, typography, logo variants, and all UI components,
+So that I have a living reference for the Kandles brand identity and can develop components in isolation.
+
+**Acceptance Criteria:**
+
+**Given** `packages/ui/.storybook/` config exists with `@storybook/react-vite` (или `@storybook/html-vite` ако без React)
+**Then** `pnpm --filter @kandles/ui storybook` стартира на `localhost:6006`
+
+**Given** `packages/ui/stories/Colors.stories.tsx`
+**Then** показва всички 5 brand цвята: `--color-amber`, `--color-sand`, `--color-cream`, `--color-chocolate`, `--color-ivory`
+**And** всеки цвят показва: hex стойност, CSS variable name, употреба (background / text / accent)
+
+**Given** `packages/ui/stories/Typography.stories.tsx`
+**Then** показва двата brand шрифта (serif + sans) с примери за heading levels (h1–h4) и body text
+**And** показва font weights и line-height стойности
+
+**Given** `packages/ui/stories/Logo.stories.tsx`
+**Then** показва всички logo варианти (light bg / dark bg / monochrome)
+**And** показва minimum sizes и clear space guidelines
+
+**Given** `packages/ui/stories/Tokens.stories.tsx`
+**Then** показва `data-theme="light"` и `data-theme="dark"` side-by-side
+**And** показва `data-season="spring|summer|autumn|winter"` token варианти
+
+**Given** всяка нова компонент story в Epic 2+
+**Then** включва `.stories.tsx` файл в `packages/ui/stories/`
+
+**Given** Turborepo `turbo.json`
+**Then** `storybook:build` task е добавен (output: `packages/ui/storybook-static/**`)
+**And** `pnpm storybook:build` от root минава успешно
+
+**Dev notes:**
+- `@storybook/react-vite` + `@storybook/addon-docs` + `@chromatic-com/storybook` (Chromatic за visual regression — optional, добавен само ако бъдещи stories изискват)
+- Storybook НЕ се deploy-ва публично — само local dev tool и CI artifact
+- Цветовете и токените се взимат от CSS файловете в `packages/ui/src/` (single source of truth)
+
+---
+
 ### Story 2.1: Brand design system component library
 
 As a developer,

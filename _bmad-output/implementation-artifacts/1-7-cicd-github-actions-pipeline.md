@@ -4,7 +4,7 @@ baseline_commit: 2505b57ee28230f9f004624065eb6c73f39f0848
 
 # Story 1.7: CI/CD GitHub Actions pipeline
 
-Status: review
+Status: done
 
 ## Story
 
@@ -613,6 +613,41 @@ claude-sonnet-4-6
 - apps/admin/package.json *(modified — test script)*
 - .env.example *(modified — GitHub Actions Secrets section)*
 
+## Senior Developer Review (AI)
+
+**Review date:** 2026-06-12
+**Outcome:** Changes Requested → Patched
+
+### Findings Triaged
+
+| # | Severity | File | Finding | Resolution |
+|---|----------|------|---------|------------|
+| 1 | CRITICAL | deploy.yml:70 | CF Pages step missing `id: cf-deploy` → STOREFRONT_URL always falls back to hardcoded URL | **PATCHED** — added `id: cf-deploy` |
+| 2 | HIGH | deploy.yml:62 | `--token ${{ secrets.VERCEL_TOKEN }}` in CLI arg → token visible in process list | **PATCHED** — moved to `VERCEL_TOKEN` env var |
+| 3 | HIGH | pr.yml + deploy.yml | No `permissions:` block → defaults to write-all (least-privilege violation) | **PATCHED** — added `permissions: contents: read` |
+| 4 | HIGH | pr.yml + deploy.yml | No `concurrency:` group → parallel runs race | **PATCHED** — added concurrency groups; deploy uses `cancel-in-progress: false` |
+| 5 | HIGH | turbo.json | `test` task lacks `cache: false` → turbo can replay cached failures as passes | **PATCHED** — added `"cache": false` to test task |
+| 6 | MEDIUM | pr.yml:88 | `npx wait-on` → package already in devDeps, use `pnpm exec` | **PATCHED** — `pnpm exec wait-on` |
+| 7 | MEDIUM | pr.yml + deploy.yml | `node-version: 22` can resolve 22.0.0 < engines `>=22.12.0` | **PATCHED** — pinned to `22.12` |
+| 8 | MEDIUM | pr.yml + deploy.yml | pnpm `version: 9` unpinned | **PATCHED** — pinned to `9.15.9` |
+| 9 | MEDIUM | playwright.config.ts | `channel: 'chromium'` uses system Chrome, not playwright-installed browser | **PATCHED** — removed channel, playwright uses installed browser |
+| 10 | MEDIUM | lighthouserc.js | `upload.target: 'temporary-public-storage'` leaks page snapshots publicly | **PATCHED** — changed to `filesystem` with `.lighthouseci` outputDir |
+| 11 | LOW | pr.yml | Trigger only on `main` but active branch is `develop` | **PATCHED** — added `develop` to trigger branches |
+
+### Deferred / Dismissed
+
+| Finding | Decision |
+|---------|----------|
+| Orphaned `0002_products_search_index.sql` not in _journal.json | DEFER — pre-existing from Story 1.3 |
+| No DB migration step before deploy | DEFER — future story (Story 1.10) |
+| CREATE INDEX without CONCURRENTLY | DEFER — Supabase migrations handle this; pre-existing from Story 1.4 |
+| Remote cache disabled for fork PRs | DEFER — documented GHA behavior |
+| `--commit-dirty=true` in wrangler | DEFER — CI checkout always clean, harmless |
+| Root `vitest.config.ts` never invoked by turbo | DEFER — config valid if ever needed |
+| `drizzle-kit check` command validity | DISMISS — confirmed present in drizzle-kit 0.31.10 bin.cjs |
+| Port 4321 concern for astro preview | DISMISS — `@astrojs/cloudflare` preview.js passes Astro's port (4321) to wrangler |
+
 ## Change Log
 
 - 2026-06-12: Story 1.7 имплементирана — GitHub Actions pr.yml + deploy.yml, Vitest workspace, ESLint flat config, Playwright axe-core, lighthouserc.js, Turborepo remote cache, DB indexes migration, wrangler.toml date update
+- 2026-06-12: Code review patches — permissions/concurrency blocks, VERCEL_TOKEN env fix, cf-deploy step id, node/pnpm version pins, test cache disabled, playwright channel removed, lighthouse upload filesystem, wait-on pnpm exec, develop branch trigger

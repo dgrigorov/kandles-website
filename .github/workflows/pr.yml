@@ -2,7 +2,14 @@ name: PR Checks
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   ci:
@@ -13,11 +20,11 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.15.9
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.12
           cache: pnpm
 
       - name: Install dependencies
@@ -85,7 +92,7 @@ jobs:
         run: pnpm --filter @kandles/storefront preview &
 
       - name: Wait for storefront
-        run: npx wait-on http://localhost:4321 --timeout 30000
+        run: pnpm exec wait-on http://localhost:4321 --timeout 30000
 
       - name: Accessibility check (axe-core + Playwright)
         run: pnpm exec playwright test

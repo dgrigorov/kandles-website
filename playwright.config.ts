@@ -9,7 +9,6 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { channel: 'chromium' },
     },
   ],
 })
