@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, numeric, smallint, boolean, timestamp, jsonb, check } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, numeric, smallint, boolean, timestamp, jsonb, check, index } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 import { orderStatusEnum, paymentMethodEnum, courierEnum } from './enums'
 import { users } from './users'
@@ -26,6 +26,7 @@ export const orders = pgTable('orders', {
   check('orders_identity_check', sql`${table.userId} IS NOT NULL OR ${table.guestEmail} IS NOT NULL`),
   check('orders_total_price_non_negative', sql`${table.totalPrice} >= 0`),
   check('orders_gift_card_text_check', sql`${table.giftCardText} IS NULL OR ${table.giftWrap} = true`),
+  index('orders_user_id_status_idx').on(table.userId, table.status),
 ])
 
 export type Order    = typeof orders.$inferSelect

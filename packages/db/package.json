@@ -14,7 +14,8 @@
     "migrate": "drizzle-kit migrate",
     "push:dev": "drizzle-kit push",
     "studio": "drizzle-kit studio",
-    "apply-indexes": "tsx scripts/apply-indexes.ts"
+    "apply-indexes": "tsx scripts/apply-indexes.ts",
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "drizzle-orm": "catalog:",

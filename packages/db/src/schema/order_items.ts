@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, smallint, numeric, check } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, text, smallint, numeric, check, index } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 import { orders } from './orders'
 import { products } from './products'
@@ -14,6 +14,7 @@ export const orderItems = pgTable('order_items', {
 }, (table) => [
   check('order_items_quantity_positive', sql`${table.quantity} > 0`),
   check('order_items_unit_price_non_negative', sql`${table.unitPrice} >= 0`),
+  index('order_items_order_id_idx').on(table.orderId),
 ])
 
 export type OrderItem    = typeof orderItems.$inferSelect
