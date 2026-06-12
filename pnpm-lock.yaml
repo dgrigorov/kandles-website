@@ -9,6 +9,12 @@ catalogs:
     '@types/node':
       specifier: ^22.0.0
       version: 22.19.21
+    '@types/react':
+      specifier: ^19.0.0
+      version: 19.2.17
+    '@types/react-dom':
+      specifier: ^19.0.0
+      version: 19.2.3
     dotenv:
       specifier: ^16.0.0
       version: 16.6.1
@@ -18,6 +24,12 @@ catalogs:
     drizzle-orm:
       specifier: ^0.45.2
       version: 0.45.2
+    react:
+      specifier: ^19.0.0
+      version: 19.2.7
+    react-dom:
+      specifier: ^19.0.0
+      version: 19.2.7
     tsx:
       specifier: ^4.8.1
       version: 4.22.4
@@ -227,7 +239,20 @@ importers:
         version: 5.9.3
 
   packages/ui:
+    dependencies:
+      react:
+        specifier: 'catalog:'
+        version: 19.2.7
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.7(react@19.2.7)
     devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.3(@types/react@19.2.17)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

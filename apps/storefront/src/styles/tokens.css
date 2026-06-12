@@ -25,3 +25,39 @@
   --font-display: 'Cormorant Garamond', serif;
   --font-ui: 'Jost', sans-serif;
 }
+
+/* ─── Colorway system (UX-DR3) ─── */
+[data-theme="light"] {
+  --color-bg:     var(--color-sand);
+  --color-text:   var(--color-chocolate);
+  --color-accent: var(--color-copper);
+}
+
+[data-theme="dark"] {
+  --color-bg:     var(--color-chocolate);
+  --color-text:   var(--color-cream);
+  --color-accent: var(--color-amber);
+}
+
+/* ─── Seasonal intensity overrides (UX-DR4) ─── */
+/* Max 2 CSS variable overrides per season — intensity shift only, no new palette colors */
+/* TODO: Confirm exact values with designer before launch */
+[data-season="winter"] {
+  --color-amber:  #A0561A;
+  --color-sand:   #DFC9A0;
+}
+
+[data-season="spring"] {
+  --color-amber:  #C8781E;
+  --color-copper: #D08838;
+}
+
+[data-season="summer"] {
+  --color-amber:  #D07820;
+  --color-sand:   #F0DAB8;
+}
+
+[data-season="autumn"] {
+  --color-amber:  #A04E18;
+  --color-copper: #B06828;
+}

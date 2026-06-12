@@ -23,6 +23,30 @@ const { title } = Astro.props
     />
   </head>
   <body>
+    <!-- Brand SVG pattern definition (UX-DR13) — referenced via fill="url(#kandles-pattern)" in sections -->
+    <svg
+      id="kandles-bg-pattern"
+      aria-hidden="true"
+      style="position:absolute;width:0;height:0;overflow:hidden"
+    >
+      <defs>
+        <pattern
+          id="kandles-pattern"
+          x="0"
+          y="0"
+          width="40"
+          height="40"
+          patternUnits="userSpaceOnUse"
+        >
+          <!-- TODO: Replace with final repeating element from Hamza Shehzad (UX-DR13) -->
+          <path
+            d="M20 8C20 8 17 12 17 15a3 3 0 006 0C23 12 20 8 20 8z"
+            fill="currentColor"
+            opacity="0.06"
+          />
+        </pattern>
+      </defs>
+    </svg>
     <slot />
   </body>
 </html>

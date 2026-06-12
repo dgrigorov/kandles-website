@@ -1,1 +1,1 @@
-export {}
+export { KandlesIcon } from './components/KandlesIcon'

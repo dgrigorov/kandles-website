@@ -63,6 +63,16 @@
 - `packages/db/src/seed.ts:20` — `ADMIN_SEED_AUTH_UUID` is a hardcoded dummy UUID; won't match real Supabase `auth.users.id`; acceptable for dev-only seed; revisit if FK to auth.users is ever enforced or if seed is reused in staging
 - `packages/db/src/seed.ts:79` — `process.exit(0)` bypasses postgres.js `client.end()` teardown; dev tooling only, OS cleans up; fix in future dev tooling improvement
 
+## Deferred from: code review of 2-1-brand-design-system-component-library (2026-06-12)
+
+- `packages/ui/src/components/KandlesIcon.tsx:14` — Zero-area placeholder paths for `pot` + `sunburst` variants; invisible without `stroke`; replace with final artwork from Hamza Shehzad (UX-DR2) before launch
+- `apps/storefront/src/styles/tokens.css:30` — `[data-theme]` CSS valid but no element sets the attribute yet; Stories 2.2+ add `data-theme` to sections; `--color-bg`/`--color-text`/`--color-accent` undefined until then
+- `apps/admin` — CSS vars `--color-amber` etc. not defined in admin; when KandlesIcon is used in admin (Stories 5.x), add token definitions to `apps/admin/src/app/globals.css` or add `var(--color-amber, #B5621E)` fallbacks to component
+- `packages/ui/src/components/KandlesIcon.tsx:23` — A11yProps discriminant `aria-hidden?: false` can dissolve via `Partial<>` spread; harden to `aria-hidden: true` (required) in future component hardening story
+- `apps/storefront/src/layouts/BaseLayout.astro:38` — `patternUnits="userSpaceOnUse"` may misalign at usage sites; add `patternTransform` or switch to `objectBoundingBox` when sections implement the pattern in Story 2.5+
+- `apps/storefront/src/styles/tokens.css:45` — Asymmetric seasonal coverage (winter/summer override `--color-sand`, spring/autumn do not); confirm with designer in Story 2.5
+- `apps/storefront/src/layouts/BaseLayout.astro:27` — SVG sprite rendered before `<slot>` in body DOM; reorder after `<slot>` during Story 2.10 full layout finalisation
+
 ## Deferred from: code review of 1-9-sentry-monitoring-stack-setup (2026-06-12)
 
 - `apps/storefront/astro.config.ts` — `tracesSampleRate: 0.1` hardcoded in @sentry/astro integration; dev builds also get 0.1 instead of 1.0; minor dev experience impact; fix in future monitoring hardening story
