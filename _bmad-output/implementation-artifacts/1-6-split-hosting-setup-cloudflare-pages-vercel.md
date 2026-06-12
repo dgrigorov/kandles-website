@@ -4,7 +4,7 @@ baseline_commit: 1bbf9f15f7d0a7bd99872b0a0ef5a3f79a09d283
 
 # Story 1.6: Split hosting setup — Cloudflare Pages + Vercel
 
-Status: review
+Status: done
 
 ## Story
 
@@ -80,6 +80,20 @@ so that the storefront runs on Cloudflare edge globally and the admin runs on Ve
 - [x] Task 8: Typecheck (AC: 8)
   - [x] `export PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" && pnpm turbo typecheck`
   - [x] 0 TypeScript грешки — 10/10 successful
+
+### Review Findings
+
+- [x] [Review][Patch] supabase.ts bypasses @kandles/env validation [apps/storefront/src/lib/supabase.ts:7-8]
+- [x] [Review][Patch] vercel.json missing installCommand/buildCommand for pnpm monorepo [apps/admin/vercel.json:2]
+- [x] [Review][Patch] Remove @kandles/ui, @kandles/email from transpilePackages (not in admin deps yet) [apps/admin/next.config.ts:7-8]
+- [x] [Review][Patch] _headers connect-src missing wss://*.supabase.co for Supabase Realtime [apps/storefront/public/_headers:7]
+- [x] [Review][Defer] unsafe-inline in CSP script-src/style-src [apps/storefront/public/_headers] — deferred, MVP tradeoff; Astro injects inline scripts for hydration
+- [x] [Review][Defer] Missing CSP entries for Meta Pixel/Sentry/Turnstile/Stripe Radar [apps/storefront/public/_headers] — deferred, features not yet implemented (Stories 6.4, 1.9, 4.6, 4.3)
+- [x] [Review][Defer] astro.config.ts missing site option — deferred, Story 2.7 (sitemap/Schema.org)
+- [x] [Review][Defer] postgres singleton without max:1/prepare:false (packages/db) — deferred, pre-existing from Story 1.3
+- [x] [Review][Defer] wrangler.toml compatibility_date "2025-01-01" stale — deferred, Story 1.7
+- [x] [Review][Defer] Vercel function timeout limits — deferred, Story 1.7
+- [x] [Review][Defer] import.meta.env CF Pages static replacement nuance — deferred, standard @astrojs/cloudflare docs pattern
 
 ## Dev Notes
 

@@ -41,3 +41,13 @@
 - `orders.ts`: updated_at DB-level trigger (currently ORM-only, stale if row updated via raw SQL) — Story 1.7 or dedicated DB work
 - `orders.ts`: guest_email format validation at DB level — app-layer validation is standard approach
 - `orders.ts`: totalPrice integrity link to SUM(order_items.unit_price * quantity) — complex trigger or generated column, future story
+
+## Deferred from: code review of 1-6-split-hosting-setup-cloudflare-pages-vercel (2026-06-12)
+
+- `apps/storefront/public/_headers` CSP `unsafe-inline` in script-src/style-src — MVP tradeoff; Astro injects inline scripts for hydration; revisit with nonce-based CSP in a future security hardening story
+- `apps/storefront/public/_headers` CSP missing Meta Pixel/Sentry/Turnstile/Stripe Radar entries — features not yet implemented; add in Stories 6.4, 1.9, 4.6, 4.3 respectively
+- `apps/storefront/astro.config.ts` missing `site` option — needed for sitemap/canonical URLs; add in Story 2.7 (Schema.org/sitemap)
+- `packages/db` postgres singleton without max:1/prepare:false for Supabase Supavisor — pre-existing from Story 1.3; revisit in Story 1.10 or dedicated DB perf story
+- `apps/storefront/wrangler.toml` compatibility_date "2025-01-01" — minor staleness; update in Story 1.7 alongside CF Pages deploy config
+- `apps/admin/vercel.json` function timeout/region limits — not required for MVP; add in Story 1.7 CI/CD
+- `apps/storefront/src/lib/supabase.ts` + CF Pages import.meta.env static replacement nuance — standard @astrojs/cloudflare pattern; revisit if runtime env binding issues arise
